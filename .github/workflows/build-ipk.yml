@@ -1,4 +1,4 @@
-name: Build ipk for luci-app-unblockneteasemusic ver
+name: Build ipk for luci-app-unblockneteasemusic
 
 on:
   push:
