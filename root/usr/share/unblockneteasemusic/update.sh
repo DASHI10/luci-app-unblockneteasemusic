@@ -26,7 +26,7 @@ clean_log(){
 check_core_latest_version() {
 	core_latest_ver="$(wget -qO- 'https://api.github.com/repos/UnblockNeteaseMusic/server/commits?sha=enhanced&path=precompiled' | jsonfilter -e '@[0].sha')"
 	[ -n "$core_latest_ver" ] || { echo -e "\nFailed to check latest core version, please try again later." >> "$LOG"; rm -f "$LOCK"; exit 1; }
-	if [ ! -e "$$UNM_DIR/core_local_ver" ]; then
+	if [ ! -e "$UNM_DIR/core_local_ver" ]; then
 		clean_log
 		echo -e "Local version: NOT FOUND, latest version: $core_latest_ver." >> "$LOG"
 		update_core
@@ -104,6 +104,6 @@ case "$1" in
 		rm -rf "$UNM_DIR/core" "$UNM_DIR/core_local_ver" "$LOCK"
 		;;
 	*)
-		echo -e "Usage: $0/update.sh check_version | update_core | remove_core"
+		echo -e "Usage: $0 check_version | update_core | remove_core"
 		;;
 esac

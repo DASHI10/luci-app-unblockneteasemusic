@@ -119,26 +119,29 @@ return view.extend({
 		o.value('youtube', _('Youtube 音乐'));
 		o.value('youtubedl', _('Youtube 音乐（youtube-dl）'));
 		o.value('ytdlp', _('Youtube 音乐（yt-dlp）'));
-		o.value('ytdownload', _('Youtube 音乐（ytdownload）'));
 
 		o = s.option(form.Value, 'joox_cookie', _('JOOX Cookie'),
 			_('在 joox.com 获取，需要 wmid 和 session_key 值。'));
 		o.placeholder = 'wmid=; session_key=';
+		o.password = true;
 		o.rmempty = false;
 		o.depends({'music_source': 'joox', '!contains': true});
 
 		o = s.option(form.Value, 'migu_cookie', _('Migu Cookie'),
 			_('通过抓包手机客户端请求获取，需要 aversionid 值。'));
+		o.password = true;
 		o.depends({'music_source': 'migu', '!contains': true});
 
 		o = s.option(form.Value, 'qq_cookie', _('QQ Cookie'),
 			_('在 y.qq.com 获取，需要 uin 和 qm_keyst 值。'));
 		o.placeholder = 'uin=; qm_keyst=';
+		o.password = true;
 		o.rmempty = false;
 		o.depends({'music_source': 'qq', '!contains': true});
 
 		o = s.option(form.Value, 'youtube_key', _('Youtube API Key'),
 			_('API Key 申请地址：https://developers.google.com/youtube/v3/getting-started#before-you-start'));
+		o.password = true;
 		o.depends({'music_source': 'youtube', '!contains': true});
 
 		o = s.option(form.Flag, 'follow_source_order', _('顺序查询'),
@@ -152,10 +155,17 @@ return view.extend({
 		o = s.option(form.Flag, 'enable_flac', _('启用无损音质'),
 			_('目前仅支持酷狗、酷我、咪咕、pyncmd、QQ 音源。'));
 		o.default = o.disabled;
+		o.depends('music_source', []);
+		o.depends({'music_source': 'kugou', '!contains': true});
+		o.depends({'music_source': 'kuwo', '!contains': true});
+		o.depends({'music_source': 'migu', '!contains': true});
+		o.depends({'music_source': 'pyncmd', '!contains': true});
+		o.depends({'music_source': 'qq', '!contains': true});
 
 		o = s.option(form.Flag, 'select_max_br', _('选取最高音质'),
 			_('选择所有音源中的最高码率替换音频。'));
 		o.default = o.disabled;
+		o.depends('enable_flac', '1');
 
 		o = s.option(form.ListValue, 'replace_music_source', _('音源替换'),
 			_('当源音乐音质低于指定数值时，尝试强制使用其他平台的高音质版本进行替换。'));
